@@ -2,8 +2,9 @@ import { useState } from "react";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { UsersList } from "@/components/UsersList";
-import { MessageCircle, Users } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ResizablePanelGroup, ResizablePanel } from "@/components/ui/resizable";
 
 interface PrivateChat {
   userId: string;
@@ -46,7 +47,6 @@ const Index = () => {
     console.log("Starting private chat with:", targetUser);
     setSelectedChat(targetUser);
     
-    // Initialize private chat if it doesn't exist
     if (!privateChats.find(chat => chat.userId === targetUser)) {
       setPrivateChats(prev => [...prev, {
         userId: targetUser,
@@ -76,18 +76,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto py-8">
-        <div className="grid grid-cols-12 gap-6">
+      <div className="container mx-auto py-4">
+        <ResizablePanelGroup direction="horizontal" className="min-h-[800px] rounded-lg border">
           {/* Public Chat Area */}
-          <div className="col-span-8">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+          <ResizablePanel defaultSize={60} className="p-4">
+            <div className="h-full flex flex-col">
               <div className="flex items-center gap-2 mb-6">
                 <MessageCircle className="w-6 h-6 text-primary" />
                 <h1 className="text-2xl font-semibold">Public Chat Room</h1>
               </div>
               
-              {/* Messages Container */}
-              <div className="h-[600px] overflow-y-auto mb-4 space-y-4">
+              <div className="flex-1 overflow-y-auto mb-4 space-y-4">
                 {messages.map((msg) => (
                   <ChatMessage
                     key={msg.id}
@@ -99,27 +98,28 @@ const Index = () => {
                 ))}
               </div>
               
-              {/* Chat Input */}
               <ChatInput onSendMessage={handleSendMessage} />
             </div>
-          </div>
-          
+          </ResizablePanel>
+
           {/* Online Users Sidebar */}
-          <div className="col-span-4">
-            <UsersList users={onlineUsers} onPrivateChat={handlePrivateChat} />
-          </div>
-        </div>
+          <ResizablePanel defaultSize={40} className="border-l">
+            <div className="h-full p-4">
+              <UsersList users={onlineUsers} onPrivateChat={handlePrivateChat} />
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </div>
 
       {/* Private Chat Sheet */}
       <Sheet open={selectedChat !== null} onOpenChange={() => setSelectedChat(null)}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Chat with {selectedChat}</SheetTitle>
-          </SheetHeader>
-          
-          <div className="mt-6 flex flex-col h-[calc(100vh-8rem)]">
-            <div className="flex-1 overflow-y-auto space-y-4">
+        <SheetContent side="right" className="w-[90vw] sm:w-[540px] p-0">
+          <div className="flex flex-col h-full">
+            <SheetHeader className="p-6 border-b">
+              <SheetTitle>Chat with {selectedChat}</SheetTitle>
+            </SheetHeader>
+            
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {currentPrivateChat?.messages.map((msg) => (
                 <ChatMessage
                   key={msg.id}
@@ -131,7 +131,7 @@ const Index = () => {
               ))}
             </div>
             
-            <div className="pt-4">
+            <div className="p-6 border-t">
               <ChatInput onSendMessage={handleSendPrivateMessage} />
             </div>
           </div>
