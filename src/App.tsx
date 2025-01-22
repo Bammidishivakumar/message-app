@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 
+// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,8 +18,8 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <React.StrictMode>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -28,8 +29,8 @@ const App: React.FC = () => {
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </QueryClientProvider>
-    </React.StrictMode>
+      </React.StrictMode>
+    </QueryClientProvider>
   );
 };
 
