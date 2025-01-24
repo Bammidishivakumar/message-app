@@ -53,7 +53,7 @@ export const ChatMessage = ({
   return (
     <>
       <div className={cn(
-        "p-3 rounded-lg mb-2 animate-message-fade relative group",
+        "p-2 rounded-lg mb-1 animate-message-fade relative group", // Reduced padding and margin-bottom
         isPrivate ? "bg-accent/10" : "bg-secondary"
       )}>
         <button
@@ -67,7 +67,7 @@ export const ChatMessage = ({
           <span className="font-semibold text-sm text-primary">{username}</span>
           <span className="text-xs text-muted-foreground">{timestamp}</span>
         </div>
-        <p className="mt-1 text-sm">{message}</p>
+        <p className="mt-0.5 text-sm">{message}</p>
       </div>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
