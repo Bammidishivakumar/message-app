@@ -56,20 +56,18 @@ export const ChatMessage = ({
         "p-3 rounded-lg mb-2 animate-message-fade relative group",
         isPrivate ? "bg-accent/10" : "bg-secondary"
       )}>
-        <div className="flex flex-col">
+        <button
+          onClick={handleDeleteClick}
+          className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          aria-label="Delete message"
+        >
+          <X className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+        </button>
+        <div className="flex justify-between items-start">
           <span className="font-semibold text-sm text-primary">{username}</span>
-          <p className="mt-1 text-sm">{message}</p>
-          <div className="flex justify-end items-center gap-2 mt-1">
-            <span className="text-xs text-muted-foreground">{timestamp}</span>
-            <button
-              onClick={handleDeleteClick}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-              aria-label="Delete message"
-            >
-              <X className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-            </button>
-          </div>
+          <span className="text-xs text-muted-foreground">{timestamp}</span>
         </div>
+        <p className="mt-1 text-sm">{message}</p>
       </div>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
